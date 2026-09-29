@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harshil Patel — Unity Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --felt: #16332B;
+    --felt-light: #1E4038;
+    --felt-lighter: #2A5449;
+    --gold: #C9A24B;
+    --gold-soft: #E3C77E;
+    --cream: #F3EFE4;
+    --ink: #12181A;
+    --ruby: #A63A3A;
+    --line: rgba(243,239,228,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--felt);
+    color:var(--cream);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;}
+  h1,h2,h3{font-family:'Fraunces', serif;font-weight:500;margin:0;}
+  a{color:inherit;}
+
+  /* subtle suit texture in background */
+  .suits{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      radial-gradient(circle at 8% 12%, var(--felt-light) 0, transparent 40%),
+      radial-gradient(circle at 92% 85%, var(--felt-light) 0, transparent 45%);
+    opacity:0.6;
+  }
+
+  header{position:relative;z-index:1;padding:72px 0 56px;}
+  .kicker{
+    color:var(--gold-soft);
+    font-size:15px;
+    margin-bottom:14px;
+  }
+  header h1{font-size:56px;color:var(--cream);letter-spacing:-0.01em;}
+  header .role{font-family:'Fraunces', serif;font-style:italic;color:var(--gold-soft);font-size:22px;margin-top:6px;}
+  header p.lede{
+    max-width:52ch;
+    font-size:17px;
+    color:rgba(243,239,228,0.82);
+    margin-top:22px;
+  }
+  .cta-row{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 22px;
+    border-radius:3px;
+    font-size:15px;
+    font-weight:500;
+    text-decoration:none;
+    border:1px solid var(--line);
+  }
+  .btn.primary{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+  .btn.secondary{color:var(--cream);}
+
+  .stat-line{
+    display:flex; gap:40px; margin-top:52px; flex-wrap:wrap;
+    border-top:1px solid var(--line); padding-top:28px;
+  }
+  .stat-line div{}
+  .stat-line .num{font-family:'Fraunces', serif; font-size:34px; color:var(--gold-soft); line-height:1;}
+  .stat-line .label{font-size:13px; color:rgba(243,239,228,0.65); margin-top:6px;}
+
+  section{position:relative;z-index:1;padding:64px 0;}
+  section.games{padding-top:20px;}
+  .section-head{margin-bottom:34px;}
+  .section-head h2{font-size:30px;color:var(--cream);}
+  .section-head p{color:rgba(243,239,228,0.7);font-size:15px;margin-top:8px;max-width:56ch;}
+
+  .hand{
+    display:flex; gap:22px; flex-wrap:wrap; justify-content:flex-start;
+  }
+  .card{
+    background:var(--cream);
+    color:var(--ink);
+    border-radius:6px;
+    width:420px;
+    max-width:100%;
+    overflow:hidden;
+    box-shadow:0 18px 40px rgba(0,0,0,0.35);
+    transition:transform .25s ease;
+  }
+  .card:nth-child(1){transform:rotate(-1.4deg);}
+  .card:nth-child(2){transform:rotate(1.2deg);}
+  .card:hover{transform:rotate(0deg) translateY(-4px);}
+  .card .shot{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#0d0d0d;}
+  .card .body{padding:22px 22px 24px;}
+  .card .top-row{display:flex; align-items:center; gap:12px; margin-bottom:4px;}
+  .card .icon{width:40px;height:40px;border-radius:9px;object-fit:cover;flex-shrink:0;}
+  .card h3{font-size:22px;}
+  .card .meta{font-size:13.5px;color:#4A5450;margin-top:2px;}
+  .card p.blurb{font-size:14.5px;color:#2c3532;margin-top:14px;}
+  .card .stats{display:flex;gap:18px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(18,24,26,0.1);}
+  .card .stats span{font-size:13px;color:#4A5450;}
+  .card .stats b{color:var(--ink);font-family:'Fraunces', serif;font-size:15px;}
+  .card .play-link{
+    margin-top:18px;
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:14px; font-weight:600; color:var(--felt);
+    text-decoration:none;
+    border-bottom:1.5px solid var(--felt);
+    padding-bottom:2px;
+  }
+
+  .skills-panel{
+    background:var(--felt-light);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:34px 32px;
+  }
+  .skill-group{margin-bottom:20px;}
+  .skill-group:last-child{margin-bottom:0;}
+  .skill-group .g-label{font-size:13px;color:var(--gold-soft);margin-bottom:10px;}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{
+    font-size:13.5px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    color:rgba(243,239,228,0.9);
+  }
+
+  .exp-item{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:22px 0;border-top:1px solid var(--line);}
+  .exp-item:last-child{border-bottom:1px solid var(--line);}
+  .exp-item .dates{font-size:13.5px;color:rgba(243,239,228,0.6);padding-top:4px;}
+  .exp-item h3{font-size:19px;color:var(--cream);}
+  .exp-item .company{font-size:14px;color:var(--gold-soft);margin-top:2px;}
+  .exp-item ul{margin:12px 0 0;padding-left:18px;color:rgba(243,239,228,0.8);font-size:14.5px;}
+  .exp-item li{margin-bottom:6px;}
+
+  footer{
+    position:relative;z-index:1;
+    padding:56px 0 72px;
+    border-top:1px solid var(--line);
+    margin-top:20px;
+  }
+  footer h2{font-size:26px;color:var(--cream);}
+  footer p{color:rgba(243,239,228,0.75);margin-top:10px;max-width:50ch;font-size:15px;}
+  .contact-row{margin-top:24px;display:flex;gap:28px;flex-wrap:wrap;font-size:15px;}
+  .contact-row a{text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;}
+  .visa-note{
+    margin-top:28px;
+    display:inline-block;
+    font-size:13.5px;
+    color:var(--gold-soft);
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:20px;
+  }
+
+  @media (max-width:600px){
+    header{padding:52px 0 40px;}
+    header h1{font-size:38px;}
+    .stat-line{gap:24px;}
+    .card{width:100%;}
+    .exp-item{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="suits"></div>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Unity Developer · London, UK</div>
+    <h1>Harshil Patel</h1>
+    <div class="role">Ships mobile card games people actually keep playing</div>
+    <p class="lede">1.5+ years building gameplay systems, AI opponents, and multiplayer logic in Unity/C#. Two titles live on Google Play, one holding a 4.6★ rating past 600 reviews.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#games">See the games</a>
+      <a class="btn secondary" href="mailto:harshil.unitydev@gmail.com">Get in touch</a>
+    </div>
+    <div class="stat-line">
+      <div><div class="num">100K+</div><div class="label">Court Piece installs</div></div>
+      <div><div class="num">4.6★</div><div class="label">Court Piece rating, 600+ reviews</div></div>
+      <div><div class="num">5+</div><div class="label">Shipped mobile titles</div></div>
+      <div><div class="num">C#</div><div class="label">Unity Engine, since 2022</div></div>
+    </div>
+  </header>
+
+  <section class="games" id="games">
+    <div class="section-head">
+      <h2>Published games</h2>
+      <p>Live on Google Play right now — open the links and play a hand. More titles in progress, added here as they ship.</p>
+    </div>
+    <div class="hand">
+      <div class="card">
+        <img class="shot" src="https://play-lh.googleusercontent.com/Xkx8Z3TRQ9s8dN3XEkWZaW0ztgaFyU_vB-fpi-FKfFb7RhhmXSedxDnVelCwXsce8Rplk8HYxrMQeZpc38e1MQ=w526-h296" alt="Court Piece gameplay screenshot">
+        <div class="body">
+          <div class="top-row">
+            <img class="icon" src="https://play-lh.googleusercontent.com/uoVtYO5mRJiQFitYoKaoDcSOtS_AdGaAYHCI4lg5mUePM8rji4c5YB7-mOYhK1L6EfwrPnc0fUkTJg6uEsijJQ=w240-h480" alt="Court Piece icon">
+            <div>
+              <h3>Court Piece — My Rung</h3>
+              <div class="meta">4-player trick-taking card game</div>
+            </div>
+          </div>
+          <p class="blurb">Built the core game loop and a custom AI opponent for this offline card game, supporting three rule variants (Single Sar, Double Sar, Double Sar with Ace). Added global leaderboards and daily bonus systems to keep players coming back.</p>
+          <div class="stats">
+            <span><b>100K+</b><br>downloads</span>
+            <span><b>4.6★</b><br>603 reviews</span>
+            <span><b>2022</b><br>shipped</span>
+          </div>
+          <a class="play-link" href="https://play.google.com/store/apps/details?id=com.oengines.courtpiece&hl=en_GB" target="_blank" rel="noopener">Play on Google Play</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img class="shot" src="https://play-lh.googleusercontent.com/TzD9QfI-mq44eTGyn1wwMsjyIHdVDFr0pGnWibOjSwJmHC_fJ7u6m_xlPrqz8518OStrPdJP-zHYKqmLNgF04A=w1200-h675" alt="500 Card Game gameplay screenshot">
+        <div class="body">
+          <div class="top-row">
+            <img class="icon" src="https://play-lh.googleusercontent.com/9r3GXlrwygcfFMJhhYjF_1oV09xBkX_Y3StW0phfQTeEDuAJD5kg9oquqiOR9tLdkhnRIptc7JU_37teGfpkcw=w240-h480" alt="500 Card Game icon">
+            <div>
+              <h3>500 Card Game</h3>
+              <div class="meta">Australian/American 500, 4-player bidding</div>
+            </div>
+          </div>
+          <p class="blurb">Developed the bidding system, trump-suit mechanics, and misère contract rules for this multiplayer variant, plus quest and time-based bonus systems for daily retention.</p>
+          <div class="stats">
+            <span><b>5K+</b><br>downloads</span>
+            <span><b>2023</b><br>shipped</span>
+          </div>
+          <a class="play-link" href="https://play.google.com/store/apps/details?id=com.oengines.online500cards&hl=en_GB" target="_blank" rel="noopener">Play on Google Play</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img class="shot" src="https://play-lh.googleusercontent.com/pGbG3blZc35i0y-Eku81-c4OhbK9YbfKPLqF4qKOT72xDdHRi9QZi4adnbQktRsxgLVWnS6KUqWwcAtDTQmnMVE=w1200-h675" alt="358 Card Game gameplay screenshot">
+        <div class="body">
+          <div class="top-row">
+            <img class="icon" src="https://play-lh.googleusercontent.com/InEWjQ_0x0qpeSd8gzTsqROeqq7kBFZ3q1e2VX8FSlHeXWzogztM23ZPIlEKquFvVqoI8znvOhcmdcYQa0LAmA=w240-h480" alt="358 Card Game icon">
+            <div>
+              <h3>358 Card Game</h3>
+              <div class="meta">3-player trick-taking card game (Sergeant Major)</div>
+            </div>
+          </div>
+          <p class="blurb">Currently building out the core gameplay for this classic trick-taking title — contract announcing, card exchange mechanics, and the 8/5/3 trick-target system, plus AI opponents and offline mode.</p>
+          <div class="stats">
+            <span><b>10K+</b><br>downloads</span>
+            <span><b>4.0★</b><br>150 reviews</span>
+          </div>
+          <a class="play-link" href="https://play.google.com/store/apps/details?id=com.oengines.sergeant358cardgame&hl=en_GB" target="_blank" rel="noopener">Play on Google Play</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>UI & feature contributions</h2>
+      <p>Also worked on new UI mechanics and interface updates for these live titles.</p>
+    </div>
+    <div class="hand">
+      <div class="card">
+        <img class="shot" src="https://play-lh.googleusercontent.com/qs2Kql3-91yf0JESCxdGSfKCJVcEOnma0OM_eJy2mfVdQ7QI-GJLtAsIHgmEIKzHbf4KYGmUgWBVLVsQwRyV=w526-h296" alt="Hearts Card Game screenshot">
+        <div class="body">
+          <div class="top-row">
+            <img class="icon" src="https://play-lh.googleusercontent.com/g1EBrlUlrXsIbb6QIppvOoN5znARFIm2h0poSeOrvhgLnDTdAw4ssGuUWLjBRNGrVzyVyAVTdp5p2B_7uQw27A=w240-h480" alt="Hearts Card Game icon">
+            <div>
+              <h3>Hearts Card Game</h3>
+              <div class="meta">Classic Hearts, Spot Hearts & Black Maria</div>
+            </div>
+          </div>
+          <p class="blurb">Implemented and refreshed in-game UI screens and interaction flows for this multi-variant card game.</p>
+          <div class="stats">
+            <span><b>500+</b><br>downloads</span>
+          </div>
+          <a class="play-link" href="https://play.google.com/store/apps/details?id=com.oengines.hearts&hl=en_GB" target="_blank" rel="noopener">Play on Google Play</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img class="shot" src="https://play-lh.googleusercontent.com/n2mZKENJ_myVncsEwtz3ajj-YlQzGwNYACOzmfSn3C36MxbdW4aV0JbumU39hCRhf6GdlfjB-k0xobOHiB1R4A=w1200-h675" alt="Blackjack - Baccarat Offline screenshot">
+        <div class="body">
+          <div class="top-row">
+            <img class="icon" src="https://play-lh.googleusercontent.com/cI9gN_ijKqXnfJ8DHx0Jra4WP1UpbpkIFTdxPHnebPfJ1sf_MZI0kb2iBCfgMQJcHlFsbISwQA0GySNRIT-SWA=w240-h480" alt="Blackjack Baccarat Offline icon">
+            <div>
+              <h3>Blackjack - Baccarat Offline</h3>
+              <div class="meta">Classic casino card games, offline</div>
+            </div>
+          </div>
+          <p class="blurb">Implemented new UI for the profile stats, leaderboard, and progression screens across both game modes.</p>
+          <div class="stats">
+            <span><b>1K+</b><br>downloads</span>
+            <span><b>4.3★</b><br>15 reviews</span>
+          </div>
+          <a class="play-link" href="https://play.google.com/store/apps/details?id=com.oengines.blackjack&hl=en_GB" target="_blank" rel="noopener">Play on Google Play</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Experience</h2>
+    </div>
+    <div class="exp-item">
+      <div class="dates">Jul 2022 –<br>Dec 2023</div>
+      <div>
+        <h3>Game Developer / Programmer</h3>
+        <div class="company">OEngines Game LLP</div>
+        <ul>
+          <li>Implemented core gameplay logic and AI behavior across 5+ mobile titles, including multiplayer card games and casual puzzle games.</li>
+          <li>Reduced load times by up to 30% through profiling and asset optimization.</li>
+          <li>Built turn-based systems, real-time multiplayer networking, and score-tracking used across the whole portfolio.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="dates">Dec 2023 –<br>Jan 2025</div>
+      <div>
+        <h3>MSc Management with Data Analytics</h3>
+        <div class="company">BPP University, London, UK</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Skills</h2>
+    </div>
+    <div class="skills-panel">
+      <div class="skill-group">
+        <div class="g-label">Game development</div>
+        <div class="tags">
+          <span class="tag">Unity Engine</span>
+          <span class="tag">Gameplay Programming</span>
+          <span class="tag">Game AI</span>
+          <span class="tag">UI/UX Integration</span>
+          <span class="tag">2D Game Development</span>
+          <span class="tag">Multiplayer / Networking</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="g-label">Programming & tools</div>
+        <div class="tags">
+          <span class="tag">C#</span>
+          <span class="tag">OOP</span>
+          <span class="tag">Data Structures & Algorithms</span>
+          <span class="tag">Git / GitHub</span>
+          <span class="tag">Android/iOS Deployment</span>
+          <span class="tag">Performance Optimization</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="g-label">Other</div>
+        <div class="tags">
+          <span class="tag">Agile / Scrum</span>
+          <span class="tag">Data Analytics Basics</span>
+          <span class="tag">Team Collaboration</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h2>Let's talk</h2>
+    <p>Looking for a Unity Developer role in the UK games industry. Available immediately.</p>
+    <div class="contact-row">
+      <a href="mailto:harshil.unitydev@gmail.com">harshil.unitydev@gmail.com</a>
+      <a href="tel:+447587791439">+44 7587 791439</a>
+      <span>London, UK</span>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
